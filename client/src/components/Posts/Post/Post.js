@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
-import { Button, Card, CardContent, CardActions, CardMedia, Modal, Fade, Box, Avatar, Typography } from '@mui/material'
 import moment from 'moment'
-import { useDispatch } from 'react-redux';
-import { Delete, ThumbUpAlt, MoreHoriz, Edit } from '@mui/icons-material'
+import { Card, CardContent, CardMedia, Modal, Fade, Box, Avatar, Typography } from '@mui/material'
+import { Edit } from '@mui/icons-material'
 
-import { likePost, deletePost } from '../../../actions/posts';
 import useStyles from './styles'
 
 const Post = ({ post, setCurrentId, open, setOpen }) => {
-  const dispatch = useDispatch();
   const classes = useStyles()
 
   const [openImageModal, setOpenImageModal] = useState(false)
 
   const handleOpen = () => {
+    setCurrentId(post._id)
     setOpen(true)
   }
   
@@ -30,11 +28,13 @@ const Post = ({ post, setCurrentId, open, setOpen }) => {
       <Card className={classes.card}>
         <CardMedia onClick={handleOpenImageModel} className={classes.media} image={post.image_url || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title={post.title} />
         <div className={classes.overlay}>
-          <Typography variant="h6">{post.creator}</Typography>
-          <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
-        </div>
-        <div className={classes.overlay2}>
-          <Avatar style={{ color: 'white', cursor: 'pointer' }} size="small" onClick={() => setCurrentId(post._id)}><Edit sx={{ p: 2 }} onClick={handleOpen} fontSize="small" /></Avatar>
+          <div>
+            <Typography variant="h6">{post.creator}</Typography>
+            <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
+          </div>
+          <Avatar className={classes.avatar} size="small" onClick={handleOpen}>
+            <Edit className={classes.editIcon} fontSize="small" />
+          </Avatar>
         </div>
         <div className={classes.details}>
           <Typography variant="body2" color="textSecondary" component="p">{post.tags.map((tag) => `#${tag} `)}</Typography>
@@ -43,10 +43,6 @@ const Post = ({ post, setCurrentId, open, setOpen }) => {
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">{post.message}</Typography>
         </CardContent>
-        <CardActions className={classes.cardActions}>
-          <Button size="small" color="primary" onClick={() => dispatch(likePost(post._id))}><ThumbUpAlt fontSize="small" /> Like {post.likeCount} </Button>
-          <Button size="small" color="primary" onClick={() => dispatch(deletePost(post._id))}><Delete fontSize="small" /> Delete</Button>
-        </CardActions>
       </Card>
 
       <Modal

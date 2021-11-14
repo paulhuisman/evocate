@@ -1,4 +1,5 @@
 import { makeStyles } from '@mui/styles'
+import { teal } from '@mui/material/colors'
 
 export default makeStyles({
   media: {
@@ -7,6 +8,9 @@ export default makeStyles({
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
     backgroundBlendMode: 'darken',
     cursor: 'pointer',
+    "&:hover": {
+      backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    },
   },
   border: {
     border: 'solid',
@@ -23,16 +27,25 @@ export default makeStyles({
     position: 'relative',
   },
   overlay: {
+    display: 'flex',
+    justifyContent: 'space-between',
     position: 'absolute',
+    width: 'calc(100% - 40px)',
     top: '20px',
     left: '20px',
     color: 'white',
   },
-  overlay2: {
-    position: 'absolute',
-    top: '20px',
-    right: '20px',
-    color: 'white',
+  avatar: {
+    cursor: 'pointer',
+    backgroundColor: teal[700],
+    transition: 'background-color .2s ease-in-out',
+    "&:hover": {
+      backgroundColor: teal[800],
+    },
+  },
+  editIcon: {
+    color: 'white', 
+    p: 2 
   },
   grid: {
     display: 'flex',

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
-import { blue, red } from '@mui/material/colors'
-import { Container, Avatar, Grow, Grid, Snackbar, Alert } from '@mui/material'
+import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles'
+import { teal, green } from '@mui/material/colors'
+import { Container, Avatar } from '@mui/material'
 import { Add } from '@mui/icons-material'
 
 import { getPosts } from './actions/posts'
@@ -17,26 +17,17 @@ const App = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: blue[600],
+        main: teal[800],
       },
       secondary: {
-        main: red[500],
+        main: green[500],
       },
       mode: 'dark'
     }
   })
 
   const [currentId, setCurrentId] = useState(null)
-  const [successMessage, setSuccessMessage] = useState(false)
   const [open, setOpen] = useState(false)
-
-  const [postData, setPostData] = useState({
-    creator: '',
-    title: '',
-    message: '',
-    tags: '',
-    image_url: ''
-  })
 
   const dispatch = useDispatch()
   const classes = useStyles()
@@ -47,16 +38,7 @@ const App = () => {
 
   const handleOpen = () => {
     setCurrentId(null)
-    clearData()
     setOpen(true)
-  }
-
-  const handleSuccessMessageClose = () => {
-    setSuccessMessage(false)
-  }
-
-  const clearData = () => {
-    setPostData({ creator: '', title: '', message: '', tags: '', image_url: '' })
   }
 
   return (
@@ -66,15 +48,9 @@ const App = () => {
           <Posts setCurrentId={setCurrentId} open={open} setOpen={setOpen} />
         </Container>
 
-        <Avatar className={classes.createButton} onClick={handleOpen}><Add fontSize="large"/></Avatar>
+        <Avatar className={classes.createButton} onClick={handleOpen} alt="Create new memory"><Add fontSize="large"/></Avatar>
 
-        <ModalForm currentId={currentId} setCurrentId={setCurrentId} open={open} setOpen={setOpen} setSuccessMessage={setSuccessMessage} />
-        
-        <Snackbar open={successMessage} autoHideDuration={5000} onClose={handleSuccessMessageClose}>
-          <Alert onClose={handleSuccessMessageClose} severity="success">
-            Successfully { currentId ? 'edited' : 'created'} memory.
-          </Alert>
-        </Snackbar>
+        <ModalForm currentId={currentId} setCurrentId={setCurrentId} open={open} setOpen={setOpen} />
       </ThemeProvider>
     </StyledEngineProvider>
   )

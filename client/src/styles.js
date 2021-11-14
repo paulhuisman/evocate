@@ -1,4 +1,5 @@
 import { makeStyles } from '@mui/styles';
+import { teal } from '@mui/material/colors'
 
 export default makeStyles(() => ({
   createButton: {
@@ -7,12 +8,13 @@ export default makeStyles(() => ({
     color: 'white',
     cursor: 'pointer',
     position: 'absolute',
+    backgroundColor: teal[700],
     right: 15,
     bottom: 15,
-    transition: 'all .3s ease-in-out',
+    transition: 'background-color .2s ease-in-out',
 
     "&:hover": {
-      backgroundColor: '#121212'
+      backgroundColor: teal[800],
     },
   }
 }));
