@@ -40,11 +40,10 @@ const App = () => {
     setCurrentId(null)
     setOpen(true)
   }
-
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
-        <Container sx={{ mt: 3 }} maxwidth="lg">
+        <Container sx={{ my: 3 }} maxwidth="lg">
           <Posts setCurrentId={setCurrentId} open={open} setOpen={setOpen} />
         </Container>
 

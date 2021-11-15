@@ -1,4 +1,4 @@
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from '@mui/styles'
 import { teal } from '@mui/material/colors'
 
 export default makeStyles(() => ({
@@ -7,7 +7,7 @@ export default makeStyles(() => ({
     height: 56,
     color: 'white',
     cursor: 'pointer',
-    position: 'absolute',
+    position: 'fixed',
     backgroundColor: teal[700],
     right: 15,
     bottom: 15,
@@ -17,4 +17,4 @@ export default makeStyles(() => ({
       backgroundColor: teal[800],
     },
   }
-}));
+}))

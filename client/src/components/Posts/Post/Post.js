@@ -36,9 +36,11 @@ const Post = ({ post, setCurrentId, open, setOpen }) => {
             <Edit className={classes.editIcon} fontSize="small" />
           </Avatar>
         </div>
-        <div className={classes.details}>
-          <Typography variant="body2" color="textSecondary" component="p">{post.tags.map((tag) => `#${tag} `)}</Typography>
-        </div>
+        { post.tags[0] !== '' &&
+          <div className={classes.details}>
+            <Typography variant="body2" color="textSecondary" component="p">{post.tags.map((tag) => `#${tag} `)}</Typography>
+          </div>
+        }
         <Typography className={classes.title} gutterBottom variant="h5" component="h2">{post.title}</Typography>
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">{post.message}</Typography>
