@@ -1,6 +1,6 @@
 # About
 
-A hobby project with MongoDB, React, Redux, Node, Express and Material UI v5.
+A hobby project with MongoDB, React, Redux, Node, Express, Styled Components and Material UI v5.
 
 ## Install
 
