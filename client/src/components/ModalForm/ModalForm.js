@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { TextField, Button, CircularProgress, Typography, Modal, Fade, Box, Snackbar, Alert} from '@mui/material'
+import { TextField, Button, CircularProgress, Typography, Modal, Fade, Box } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux' 
 
 import useStyles from './styles'
 import { createPost, updatePost, deletePost } from '../../actions/posts'
 
-const ModalForm = ({ currentId, setCurrentId, open, setOpen }) => {
-  const [postData, setPostData] = useState({
+const ModalForm = ({ currentId, open, setOpen, setStatusMessage }) => {
+  const postDataInitialState = {
     creator: '',
     title: '',
     message: '',
     tags: '',
     image_url: ''
-  })
+  }
+  const [postData, setPostData] = useState(postDataInitialState)
   const [loading, setLoading] = useState(false)
-  const [successMessage, setSuccessMessage] = useState(false)
 
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -28,10 +28,10 @@ const ModalForm = ({ currentId, setCurrentId, open, setOpen }) => {
       setPostData(post)
     }
     else {
-      // Making sure to clean the form when adding a new memory
-      clearData()
+      // Making sure to clean the form when adding a new post
+      clearFormData()
     }
-  }, [post])
+  }, [post]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleClose = () => {
     setOpen(false)
@@ -50,31 +50,28 @@ const ModalForm = ({ currentId, setCurrentId, open, setOpen }) => {
         dispatch(createPost(postData))
       }
       
-      clearData()
+      clearFormData()
       setOpen(false)
-      setSuccessMessage(true)
+      setStatusMessage({ open: true, severity: 'success', typeString: currentId ? 'edited' : 'created' })
       setLoading(false)
     }, 1000) // Little temporary delay added to see the loader in action ;)
   } 
 
-  const handleSuccessMessageClose = () => {
-    setSuccessMessage(false)
-  }
-
   const handleDeletePost = () => {
     try {
       dispatch(deletePost(currentId))
+      setStatusMessage({ open: true, severity: 'success', typeString: 'deleted' })
     } catch (error) {
       console.log('Error trying to delete', error)
     }
-    clearData()
+    clearFormData()
     setOpen(false)
   }
 
-  const clearData = () => {
-    setPostData({ creator: '', title: '', message: '', tags: '', image_url: '' })
+  const clearFormData = () => {
+    setPostData(postDataInitialState)
   }
-
+  
   return (
     <>
       <Modal
@@ -153,12 +150,6 @@ const ModalForm = ({ currentId, setCurrentId, open, setOpen }) => {
           </Box>
         </Fade>
       </Modal>
-      
-      <Snackbar open={successMessage} autoHideDuration={5000} onClose={handleSuccessMessageClose}>
-        <Alert onClose={handleSuccessMessageClose} severity="success">
-          Successfully { currentId ? 'edited' : 'created'} memory.
-        </Alert>
-      </Snackbar>
     </>
   )
 }

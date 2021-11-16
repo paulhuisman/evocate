@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles'
 import { teal, green } from '@mui/material/colors'
-import { Container, Avatar } from '@mui/material'
+import { Container, Avatar, Snackbar, Alert } from '@mui/material'
 import { Add } from '@mui/icons-material'
 
 import { getPosts } from './actions/posts'
@@ -28,6 +28,11 @@ const App = () => {
 
   const [currentId, setCurrentId] = useState(null)
   const [open, setOpen] = useState(false)
+  const [statusMessage, setStatusMessage] = useState({ 
+    show: false, 
+    severity: null, 
+    typeString: null 
+  })
 
   const dispatch = useDispatch()
   const classes = useStyles()
@@ -40,6 +45,11 @@ const App = () => {
     setCurrentId(null)
     setOpen(true)
   }
+
+  const handleStatusMessageClose = () => {
+    setStatusMessage({ open: false })
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
@@ -49,7 +59,13 @@ const App = () => {
 
         <Avatar className={classes.createButton} onClick={handleOpen} alt="Create new memory"><Add fontSize="large"/></Avatar>
 
-        <ModalForm currentId={currentId} setCurrentId={setCurrentId} open={open} setOpen={setOpen} />
+        <ModalForm currentId={currentId} setCurrentId={setCurrentId} open={open} setOpen={setOpen} setStatusMessage={setStatusMessage} />
+      
+        <Snackbar open={statusMessage.open} autoHideDuration={5000} onClose={handleStatusMessageClose}>
+          <Alert onClose={handleStatusMessageClose} severity={statusMessage.severity}>
+            Successfully {statusMessage.typeString} memory.
+          </Alert>
+        </Snackbar>
       </ThemeProvider>
     </StyledEngineProvider>
   )
